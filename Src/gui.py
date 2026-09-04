@@ -28,61 +28,52 @@ def gerar_pdf(nome, endereco, cidade, uf, cep, cnpj):
 
     #   NOME
     pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 750, "_" * 60)
+    pdf.drawString(100, 754, "_" * 60)
     
     pdf.setFont("Helvetica", 18)
     pdf.drawString(100, 730, "Nome:")
     
+    pdf.setFont("Helvetica", 16)
+    pdf.drawString(160, 730, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 722, "_" * 60)
+    
+    #   ENDEREÇO    
     pdf.setFont("Helvetica", 18)
-    pdf.drawString(152, 730, nome)
+    pdf.drawString(100, 694, "Endereço:")
+
+    pdf.setFont("Helvetica", 16)
+    pdf.drawString(190, 694, endereco)
     
     pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 720, "_" * 60)
-    
-    #   ENDEREÇO
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 700, "_" * 40)
-    
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(100, 690, nome)
-    
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 670, "_" * 40)
+    pdf.drawString(100, 682, "_" * 60)
     
     #   CIDADE
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 650, "_" * 40)
-    
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(100, 640, nome)
-    
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 620, "_" * 40)
-    
-    #   UF
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 600, "_" * 40)
-    
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(100, 590, nome)
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(100, 640, "Cidade:")
+
+    pdf.setFont("Helvetica", 16)
+    pdf.drawString(170, 640, cidade)
     
     pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 570, "_" * 40)
+    pdf.drawString(100, 632, "_" * 60)
+    
+    #   UF    
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(436, 640, "UF:")
+
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(470, 640, uf)
 
     #   CEP
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 550, "_" * 40)
-    
     pdf.setFont("Helvetica", 12)
     pdf.drawString(100, 540, nome)
     
     pdf.setFont("Helvetica-Bold", 12)
     pdf.drawString(100, 520, "_" * 40)
 
-    #   CNPJ
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 500, "_" * 40)
-    
+    #   CNPJ    
     pdf.setFont("Helvetica", 12)
     pdf.drawString(100, 490, nome)
     
@@ -99,14 +90,17 @@ def interface():
     janela = tk.Tk()
 
     #   CONFIGURAÇÕES GERAIS DA JANELA
-    janela.title("Entregas RS")
+    janela.title("Entregas Expressas RS")
     centralizar(janela, 600, 400)
     janela.resizable(False, False)
+
+    icone = tk.PhotoImage(file="img/favicon.png")
+    janela.iconphoto(True, icone)
 
     #   TÍTULO DA APLICAÇÃO
     titulo = tk.Label(
         janela,
-        text="Entregas RS Destinatário",
+        text="Destinatário",
         font=("Arial", 16, "bold")
     )
     titulo.pack(pady=10)
