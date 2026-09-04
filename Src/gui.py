@@ -1,88 +1,5 @@
-import os
 import tkinter as tk
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
-
-def centralizar(janela, largura, altura):
-    largura_tela = janela.winfo_screenwidth()
-    altura_tela = janela.winfo_screenheight()
-
-    x = (largura_tela - largura) // 2
-    y = (altura_tela - altura) // 3
-
-    janela.geometry(f"{largura}x{altura}+{x}+{y}")
-    
-def limpar_campos(*campos):
-    for campo in campos:
-        campo.delete(0, tk.END)
-
-def gerar_pdf(nome, endereco, cidade, uf, cep, cnpj):
-
-    pdf = canvas.Canvas("destinatario.pdf", pagesize=A4)
-
-    pdf.setFont("Helvetica-Bold", 20)
-    pdf.drawCentredString(A4[0] / 2, 770, "Destinatário")
-
-    #   NOME
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 754, "_" * 60)
-    
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(100, 730, "Nome:")
-    
-    pdf.setFont("Helvetica", 16)
-    pdf.drawString(160, 730, nome)
-    
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 722, "_" * 60)
-    
-    #   ENDEREÇO   
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(100, 694, "Endereço:")
-
-    pdf.setFont("Helvetica", 16)
-    pdf.drawString(190, 694, endereco)
-    
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 682, "_" * 60)
-    
-    #   CIDADE
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(100, 654, "Cidade:")
-
-    pdf.setFont("Helvetica", 16)
-    pdf.drawString(170, 654, cidade)
-    
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 642, "_" * 60)
-    
-    #   UF    
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(436, 654, "UF:")
-
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(470, 654, uf)
-
-    #   CEP
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(100, 614, "CEP:")
-    
-    pdf.setFont("Helvetica", 16)
-    pdf.drawString(150, 614, cep)
-    
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 602, "_" * 60)
-
-    #   CNPJ/CPF    
-    pdf.setFont("Helvetica", 18)
-    pdf.drawString(290, 614, "CNPJ:")
-    
-    pdf.setFont("Helvetica", 16)
-    pdf.drawString(350, 614, cnpj)
-
-    pdf.save()
-
-    os.startfile("destinatario.pdf")
+from funcoes import centralizar, processar_formulario
 
 def interface():
 
@@ -91,7 +8,7 @@ def interface():
 
     #   CONFIGURAÇÕES GERAIS DA JANELA
     janela.title("Entregas Expressas RS")
-    centralizar(janela, 600, 400)
+    centralizar(janela, 600, 340)
     janela.resizable(False, False)
 
     icone = tk.PhotoImage(file="img/favicon.png")
@@ -124,24 +41,43 @@ def interface():
     )
     nome_entrada.pack(side="right")
 
-    #   FRAME ENDEREÇO
+    #   FRAME ENDEREÇO  
     frame_endereco = tk.Frame(
         janela
     )
     frame_endereco.pack(pady=10)
-
+    
     endereco_label = tk.Label(
         frame_endereco,
-        text="Endereço: ",
+        text="Endereço:",
         font=("Arial", 12)
     )
     endereco_label.pack(side="left")
-
+    
     endereco_entrada = tk.Entry(
         frame_endereco,
         width=40
     )
-    endereco_entrada.pack(side="right")
+    endereco_entrada.pack(side="left")
+    
+    #   FRAME CEP
+    frame_cep = tk.Frame(
+        frame_endereco
+    )
+    frame_cep.pack(side="left")
+    
+    cep_label = tk.Label(
+        frame_cep,
+        text="CEP:",
+        font=("Arial", 12)
+    )
+    cep_label.pack(side="left")
+    
+    cep_entrada = tk.Entry(
+        frame_cep,
+        width=12
+    )
+    cep_entrada.pack(side="left")
 
     #   FRAME CIDADE
     frame_cidade_uf = tk.Frame(
@@ -181,28 +117,28 @@ def interface():
     )
     uf_entrada.pack(side="right")
 
-    #   FRAME CEP
-    frame_cep_cnpj = tk.Frame(
+    #   FRAME TELEFONE
+    frame_telefone_cnpj = tk.Frame(
         janela
     )
-    frame_cep_cnpj.pack(pady=10)
+    frame_telefone_cnpj.pack(pady=10)
 
-    cep_label = tk.Label(
-        frame_cep_cnpj,
-        text="CEP: ",
+    telefone_label = tk.Label(
+        frame_telefone_cnpj,
+        text="Telefone: ",
         font=("Arial", 12)
     )
-    cep_label.pack(side="left")
+    telefone_label.pack(side="left")
 
-    cep_entrada = tk.Entry(
-        frame_cep_cnpj,
-        width=15
+    telefone_entrada = tk.Entry(
+        frame_telefone_cnpj,
+        width=18
     )
-    cep_entrada.pack(side="left")
+    telefone_entrada.pack(side="left")
 
     #   FRAME CNPJ
     frame_cnpj = tk.Frame(
-        frame_cep_cnpj
+        frame_telefone_cnpj
     )
     frame_cnpj.pack(pady=10)
 
@@ -215,7 +151,7 @@ def interface():
 
     cnpj_entrada = tk.Entry(
         frame_cnpj,
-        width=40
+        width=26
     )
     cnpj_entrada.pack(side="right")
 
@@ -228,26 +164,38 @@ def interface():
         relief="solid",
         width=10,
         height=2,
-        #   Lambda é importante pra não freezar o programa
-        command=lambda: (
-            gerar_pdf(
-                nome_entrada.get(),
-                endereco_entrada.get(),
-                cidade_entrada.get(),
-                uf_entrada.get(),
-                cep_entrada.get(),
-                cnpj_entrada.get()
-            ),
-            limpar_campos(
-                nome_entrada,
-                endereco_entrada,
-                cidade_entrada,
-                uf_entrada,
-                cep_entrada,
-                cnpj_entrada
-            )
+        command=lambda: processar_formulario(
+            nome_entrada.get(),
+            endereco_entrada.get(),
+            cep_entrada.get(),
+            cidade_entrada.get(),
+            uf_entrada.get(),
+            telefone_entrada.get(),
+            cnpj_entrada.get()
         )
     )
-    botao.pack(pady=10)
+    botao.pack(side="top", pady=14)
 
     janela.mainloop()
+
+        #   Lambda é importante pra não freezar o programa
+        # command=lambda: (
+        #     gerar_pdf(
+        #         nome_entrada.get().strip(),
+        #         endereco_entrada.get(),
+        #         cep_entrada.get(),
+        #         cidade_entrada.get(),
+        #         uf_entrada.get().strip().upper(),
+        #         telefone_entrada.get(),
+        #         cnpj_entrada.get()
+        #     ),
+        #     limpar_campos(
+        #         nome_entrada,
+        #         endereco_entrada,
+        #         cep_entrada,
+        #         cidade_entrada,
+        #         uf_entrada,
+        #         telefone_entrada,
+        #         cnpj_entrada
+        #     )
+        # )
