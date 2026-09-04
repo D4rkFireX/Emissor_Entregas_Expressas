@@ -1,9 +1,6 @@
 import os
-#   PARA A INTERFACE
 import tkinter as tk
-#   PARA A GERAÇÃO DO PDF
 from reportlab.pdfgen import canvas
-#   PARA O TAMANHO DA FOLHA
 from reportlab.lib.pagesizes import A4
 
 def centralizar(janela, largura, altura):
@@ -39,7 +36,7 @@ def gerar_pdf(nome, endereco, cidade, uf, cep, cnpj):
     pdf.setFont("Helvetica-Bold", 12)
     pdf.drawString(100, 722, "_" * 60)
     
-    #   ENDEREÇO    
+    #   ENDEREÇO   
     pdf.setFont("Helvetica", 18)
     pdf.drawString(100, 694, "Endereço:")
 
@@ -51,34 +48,37 @@ def gerar_pdf(nome, endereco, cidade, uf, cep, cnpj):
     
     #   CIDADE
     pdf.setFont("Helvetica", 18)
-    pdf.drawString(100, 640, "Cidade:")
+    pdf.drawString(100, 654, "Cidade:")
 
     pdf.setFont("Helvetica", 16)
-    pdf.drawString(170, 640, cidade)
+    pdf.drawString(170, 654, cidade)
     
     pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 632, "_" * 60)
+    pdf.drawString(100, 642, "_" * 60)
     
     #   UF    
     pdf.setFont("Helvetica", 18)
-    pdf.drawString(436, 640, "UF:")
+    pdf.drawString(436, 654, "UF:")
 
     pdf.setFont("Helvetica", 18)
-    pdf.drawString(470, 640, uf)
+    pdf.drawString(470, 654, uf)
 
     #   CEP
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(100, 540, nome)
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(100, 614, "CEP:")
+    
+    pdf.setFont("Helvetica", 16)
+    pdf.drawString(150, 614, cep)
     
     pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 520, "_" * 40)
+    pdf.drawString(100, 602, "_" * 60)
 
-    #   CNPJ    
-    pdf.setFont("Helvetica", 12)
-    pdf.drawString(100, 490, nome)
+    #   CNPJ/CPF    
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(290, 614, "CNPJ:")
     
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 470, "_" * 40)
+    pdf.setFont("Helvetica", 16)
+    pdf.drawString(350, 614, cnpj)
 
     pdf.save()
 
