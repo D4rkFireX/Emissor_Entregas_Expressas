@@ -1,4 +1,3 @@
-import webbrowser
 import os
 #   PARA A INTERFACE
 import tkinter as tk
@@ -15,17 +14,80 @@ def centralizar(janela, largura, altura):
     y = (altura_tela - altura) // 3
 
     janela.geometry(f"{largura}x{altura}+{x}+{y}")
+    
+def limpar_campos(*campos):
+    for campo in campos:
+        campo.delete(0, tk.END)
 
 def gerar_pdf(nome, endereco, cidade, uf, cep, cnpj):
 
     pdf = canvas.Canvas("destinatario.pdf", pagesize=A4)
 
-    pdf.drawString(100, 750, nome)
-    pdf.drawString(100, 730, endereco)
-    pdf.drawString(100, 710, cidade)
-    pdf.drawString(100, 690, uf)
-    pdf.drawString(100, 670, cep)
-    pdf.drawString(100, 650, cnpj)
+    pdf.setFont("Helvetica-Bold", 20)
+    pdf.drawCentredString(A4[0] / 2, 770, "Destinatário")
+
+    #   NOME
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 750, "_" * 60)
+    
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(100, 730, "Nome:")
+    
+    pdf.setFont("Helvetica", 18)
+    pdf.drawString(152, 730, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 720, "_" * 60)
+    
+    #   ENDEREÇO
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 700, "_" * 40)
+    
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(100, 690, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 670, "_" * 40)
+    
+    #   CIDADE
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 650, "_" * 40)
+    
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(100, 640, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 620, "_" * 40)
+    
+    #   UF
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 600, "_" * 40)
+    
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(100, 590, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 570, "_" * 40)
+
+    #   CEP
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 550, "_" * 40)
+    
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(100, 540, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 520, "_" * 40)
+
+    #   CNPJ
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 500, "_" * 40)
+    
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(100, 490, nome)
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 470, "_" * 40)
 
     pdf.save()
 
@@ -173,13 +235,23 @@ def interface():
         width=10,
         height=2,
         #   Lambda é importante pra não freezar o programa
-        command=lambda: gerar_pdf(
-            nome_entrada.get(),
-            endereco_entrada.get(),
-            cidade_entrada.get(),
-            uf_entrada.get(),
-            cep_entrada.get(),
-            cnpj_entrada.get()
+        command=lambda: (
+            gerar_pdf(
+                nome_entrada.get(),
+                endereco_entrada.get(),
+                cidade_entrada.get(),
+                uf_entrada.get(),
+                cep_entrada.get(),
+                cnpj_entrada.get()
+            ),
+            limpar_campos(
+                nome_entrada,
+                endereco_entrada,
+                cidade_entrada,
+                uf_entrada,
+                cep_entrada,
+                cnpj_entrada
+            )
         )
     )
     botao.pack(pady=10)
