@@ -165,37 +165,15 @@ def interface():
         width=10,
         height=2,
         command=lambda: processar_formulario(
-            nome_entrada.get(),
-            endereco_entrada.get(),
-            cep_entrada.get(),
-            cidade_entrada.get(),
-            uf_entrada.get(),
-            telefone_entrada.get(),
-            cnpj_entrada.get()
+            nome_entrada,
+            endereco_entrada,
+            cep_entrada,
+            cidade_entrada,
+            uf_entrada,
+            telefone_entrada,
+            cnpj_entrada
         )
     )
     botao.pack(side="top", pady=14)
 
     janela.mainloop()
-
-        #   Lambda é importante pra não freezar o programa
-        # command=lambda: (
-        #     gerar_pdf(
-        #         nome_entrada.get().strip(),
-        #         endereco_entrada.get(),
-        #         cep_entrada.get(),
-        #         cidade_entrada.get(),
-        #         uf_entrada.get().strip().upper(),
-        #         telefone_entrada.get(),
-        #         cnpj_entrada.get()
-        #     ),
-        #     limpar_campos(
-        #         nome_entrada,
-        #         endereco_entrada,
-        #         cep_entrada,
-        #         cidade_entrada,
-        #         uf_entrada,
-        #         telefone_entrada,
-        #         cnpj_entrada
-        #     )
-        # )
