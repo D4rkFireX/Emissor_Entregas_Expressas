@@ -1,5 +1,15 @@
+import os
+import sys
 import tkinter as tk
 from funcoes import centralizar, processar_formulario
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 def interface():
 
@@ -11,8 +21,12 @@ def interface():
     centralizar(janela, 600, 340)
     janela.resizable(False, False)
 
-    icone = tk.PhotoImage(file="img/favicon.png")
-    janela.iconphoto(True, icone)
+    icone = resource_path("img/favicon.ico")
+    janela.iconbitmap(icone)
+
+    # SE CASO O ÍCONE DO PROGRAMA FOSSE APENAS UM PNG
+    # icone = tk.PhotoImage(file="img/favicon.png")
+    # janela.iconphoto(True, icone)
 
     #   TÍTULO DA APLICAÇÃO
     titulo = tk.Label(
